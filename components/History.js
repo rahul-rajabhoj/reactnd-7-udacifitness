@@ -11,7 +11,8 @@ import AppLoading from 'expo-app-loading'
 
 class History extends Component {
     state = {
-        ready: false,
+        ready: false, 
+        selectedDate: new Date().toISOString().slice(0,10),
     }
 
     componentDidMount () {
@@ -28,21 +29,26 @@ class History extends Component {
             .then(() => this.setState(() => ({ready: true})))
     }
 
-    renderItem = ({ today, ...metrics }, key) => (
+    renderItem = (dateKey, { today, ...metrics }, firstItemInDay) => (
         <View style={styles.item}>
-            {today
-                ? <View>
-                    <Text style={styles.noDataText}>
-                        {today}
-                    </Text>
-                </View>
-                : <TouchableOpacity
-                    onPress={() => console.log('Pressed!')}
-                >
-                    <MetricCard metrics={metrics} />
-                </TouchableOpacity>}
+          {today
+            ? <View>
+                {/* <DateHeaders date={formattedDate} /> */}
+                <Text style={styles.noDataText}>
+                    {today}
+                </Text>
+            </View>
+            : <TouchableOpacity onPress={()=> this.props.navigation.navigate('EntryDetail', { entryId: dateKey })}>
+                <MetricCard metrics={metrics} />
+            </TouchableOpacity>}
         </View>
     )
+    
+    onDayPress = (day) => {
+        this.setState({
+          selectedDate: day.dateString
+        })
+    };
     
     renderEmptyDate(formattedDate) {
         return (
@@ -56,7 +62,7 @@ class History extends Component {
 
     render() {
         const { entries } = this.props
-        const { ready } = this.state
+        const { ready, selectedDate } = this.state
 
         if (ready === false) {
             return <AppLoading />
@@ -65,7 +71,8 @@ class History extends Component {
         return (
             <Agenda
                 items={entries}
-                renderItem={this.renderItem}
+                onDayPress={this.onDayPress}
+                renderItem={(item, firstItemInDay) => this.renderItem(selectedDate, item, firstItemInDay)}
                 renderEmptyDate={this.renderEmptyDate}
             />
         )

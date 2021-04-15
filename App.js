@@ -11,6 +11,7 @@ import Constants from 'expo-constants'
 import AddEntry from './components/AddEntry';
 import reducer from './reducers'
 import History from './components/History'
+import Live from './components/Live'
 import EntryDetail from './components/EntryDetail'
 import { purple, white } from './utils/colors'
 
@@ -40,6 +41,10 @@ const TabNav = () => (
           icon = (
             <Ionicons name="ios-bookmarks" size={size} color={color} />
           )
+        } else if (route.name === 'Live') {
+          icon = (
+            <Ionicons name='ios-speedometer' size={30} color={color} />
+          )
         }
         return icon
       },
@@ -57,6 +62,7 @@ const TabNav = () => (
   >
     <Tab.Screen name="History" component={History} />
     <Tab.Screen name="Add Entry" component={AddEntry} />
+    <Tab.Screen name="Live" component={Live} />
   </Tab.Navigator>
 )
 

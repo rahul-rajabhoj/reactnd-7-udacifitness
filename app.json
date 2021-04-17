@@ -4,6 +4,7 @@
   "expo": {
     "name": "UdaciFitness",
     "slug": "UdaciFitness",
+    "sdkVersion": "41.0.0",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"

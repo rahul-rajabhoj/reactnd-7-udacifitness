@@ -14,6 +14,7 @@ import History from './components/History'
 import Live from './components/Live'
 import EntryDetail from './components/EntryDetail'
 import { purple, white } from './utils/colors'
+import { setLocalNotification } from './utils/helpers'
 
 function UdaciStatusBar ({backgroundColor, ...props}) {
   return (
@@ -87,6 +88,11 @@ const MainNav = () => (
 );
 
 export default class App extends React.Component {
+
+  componentDidMount() {
+    setLocalNotification()
+  }
+
   render() {
     return (
       <Provider store={createStore(reducer)}>
